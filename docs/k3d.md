@@ -167,7 +167,7 @@ To ensure proper networking functionality for Kubernetes and Cilium, load the re
     Create a configuration file to load the modules at boot:
 
 ```console
-    sudo nano /etc/modules-load.d/kubernetes.conf
+    sudo vi /etc/modules-load.d/kubernetes.conf
 ```
 
     Add the following lines:
@@ -195,7 +195,7 @@ Configure `sysctl` settings to enable IP forwarding and bridge traffic filtering
 1.  Create a Sysctl Configuration File:
 
 ```console
-    sudo nano /etc/sysctl.d/99-kubernetes-cri.conf
+    sudo vi /etc/sysctl.d/99-kubernetes-cri.conf
 ```
 
 2.  Add the Following Lines:
@@ -268,7 +268,7 @@ Replace Flannel with Cilium as the CNI.
 
 3.  Verify Cilium Installation:
 
-```
+```console
     cilium status
 ```
 
