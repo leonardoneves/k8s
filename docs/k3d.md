@@ -28,29 +28,29 @@ k3d runs Kubernetes clusters inside Docker containers, so you need to install Do
 1.  Install Docker:
 
 ```console
-    sudo apt install -y docker.io
+sudo apt install -y docker.io
 ```
 
 2.  Start and Enable Docker:
 
 ```console
-    sudo systemctl start docker
-    sudo systemctl enable docker
+sudo systemctl start docker
+sudo systemctl enable docker
 ```
 
 3.  Add Your User to the Docker Group (Optional but Recommended):
 
-    This allows you to run Docker commands without `sudo`.
+This allows you to run Docker commands without `sudo`.
 
 ```console
-    sudo usermod -aG docker $USER
-    newgrp docker
+sudo usermod -aG docker $USER
+newgrp docker
 ```
 
 4.  Verify Docker Installation:
 
 ```console
-    docker --version
+docker --version
 ```
 
 * * * * *
@@ -62,18 +62,16 @@ kubectl is the Kubernetes command-line tool used to interact with your cluster.
 1.  Download and Install kubectl:
 
 ```console
-    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-
-    chmod +x kubectl
-
-    sudo mv kubectl /usr/local/bin/
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/
 ```
 
 2.  Verify kubectl Installation:
 
 
 ```console
-    kubectl version --client
+kubectl version --client
 ```
 
 * * * * *
@@ -85,13 +83,13 @@ k3d is a lightweight wrapper around k3s that allows you to create Kubernetes clu
 1.  Download and Install k3d:
 
 ```console
-    curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 ```
 
 2.  Verify k3d Installation:
 
 ```console
-    k3d --version
+k3d --version
 ```
 
 * * * * *
@@ -103,21 +101,20 @@ k9s is a terminal-based UI for managing Kubernetes clusters.
 1.  Download and Install k9s:
 
 ```console
-    curl -sS https://webinstall.dev/k9s | bash
+curl -sS https://webinstall.dev/k9s | bash
 ```
 
 2.  Add k9s to Your PATH (if not already added):
 
 ```console
-    echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-
-    source ~/.bashrc
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
 ```
 
 3.  Verify k9s Installation:
 
 ```console
-    k9s version
+k9s version
 ```
 
 * * * * *
@@ -130,14 +127,14 @@ kubectx and kubens are tools for switching between Kubernetes contexts and names
 
 
 ```console
-    sudo apt-get install kubectx
+sudo apt-get install kubectx
 ```
 
 2.  Verify Installation:
 
 ```console
-    kubectx
-    kubens
+kubectx
+kubens
 ```
 
 * * * * *
@@ -149,41 +146,38 @@ To ensure proper networking functionality for Kubernetes and Cilium, load the re
 1.  Load the Modules Manually:
 
 ```console
-    sudo modprobe overlay
-
-    sudo modprobe br_netfilter
+sudo modprobe overlay
+sudo modprobe br_netfilter
 ```
 
 2.  Verify the Modules Are Loaded:
 
 ```console
-    lsmod | grep overlay
-
-    lsmod | grep br_netfilter
+lsmod | grep overlay
+lsmod | grep br_netfilter
 ```
 
 3.  Ensure Modules Are Loaded Automatically on Boot:
 
-    Create a configuration file to load the modules at boot:
+Create a configuration file to load the modules at boot:
 
 ```console
-    sudo vi /etc/modules-load.d/kubernetes.conf
+sudo vi /etc/modules-load.d/kubernetes.conf
 ```
 
-    Add the following lines:
+Add the following lines:
 
 ```console
-    overlay
-
-    br_netfilter
+overlay
+br_netfilter
 ```
 
-    Save and close the file.
+Save and close the file.
 
 4.  Reload Module Configurations:
 
 ```console
-    sudo systemctl restart systemd-modules-load.service
+sudo systemctl restart systemd-modules-load.service
 ```
 
 * * * * *
@@ -195,33 +189,29 @@ Configure `sysctl` settings to enable IP forwarding and bridge traffic filtering
 1.  Create a Sysctl Configuration File:
 
 ```console
-    sudo vi /etc/sysctl.d/99-kubernetes-cri.conf
+sudo vi /etc/sysctl.d/99-kubernetes-cri.conf
 ```
 
 2.  Add the Following Lines:
 
 ```console
-    net.bridge.bridge-nf-call-iptables = 1
-
-    net.ipv4.ip_forward = 1
-
-    net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+net.bridge.bridge-nf-call-ip6tables = 1
 ```
 
 3.  Apply the Settings:
 
 ```console
-    sudo sysctl --system
+sudo sysctl --system
 ```
 
 4.  Verify the Settings:
 
 ```console
-    sysctl net.bridge.bridge-nf-call-iptables
-
-    sysctl net.ipv4.ip_forward
-
-    sysctl net.bridge.bridge-nf-call-ip6tables
+sysctl net.bridge.bridge-nf-call-iptables
+sysctl net.ipv4.ip_forward
+sysctl net.bridge.bridge-nf-call-ip6tables
 ```
 
 * * * * *
@@ -233,13 +223,13 @@ Now that everything is set up, create a k3d cluster without Flannel .
 1.  Create the Cluster (3 masters and 3 worker nodes):
 
 ```console
-    k3d cluster create my-cluster --k3s-arg "--flannel-backend=none@server:*" -a 3 -s 3
+k3d cluster create my-cluster --k3s-arg "--flannel-backend=none@server:*" -a 3 -s 3
 ```
 
 2.  Verify the Cluster:
 
 ```console
-    kubectl get nodes
+kubectl get nodes
 ```
 
 Nodes will be on NotReady state due to lack of CNI
@@ -253,23 +243,21 @@ Replace Flannel with Cilium as the CNI.
 1.  Install the Cilium CLI:
 
 ```console
-    curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/latest/download/cilium-linux-amd64.tar.gz
-
-    tar xzvf cilium-linux-amd64.tar.gz
-
-    sudo mv cilium /usr/local/bin/
+curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/latest/download/cilium-linux-amd64.tar.gz
+tar xzvf cilium-linux-amd64.tar.gz
+sudo mv cilium /usr/local/bin/
 ```
 
 2.  Install Cilium:
 
 ```console
-    cilium install
+cilium install
 ```
 
 3.  Verify Cilium Installation:
 
 ```console
-    cilium status
+cilium status
 ```
 
 * * * * *
@@ -281,51 +269,51 @@ To ensure Cilium is working correctly, test a simple Network Policy.
 1.  Create a Pod:
 
 ```yaml
-    apiVersion: v1
-    kind: Pod
-    metadata:
-      name: test-pod
-      labels:
-        app: test
-    spec:
-      containers:
-      - name: nginx
-        image: nginx
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod
+  labels:
+    app: test
+spec:
+  containers:
+  - name: nginx
+    image: nginx
 ```
 
-    Apply the Pod:
+Apply the Pod:
 
 ```console
-    kubectl apply -f test-pod.yaml
+kubectl apply -f test-pod.yaml
 ```
 
 2.  Apply a Network Policy:
 
 ```yaml
-    apiVersion: networking.k8s.io/v1
-    kind: NetworkPolicy
-    metadata:
-      name: allow-only-nginx
-    spec:
-      podSelector:
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-only-nginx
+spec:
+  podSelector:
+    matchLabels:
+      app: test
+  ingress:
+  - from:
+    - podSelector:
         matchLabels:
-          app: test
-      ingress:
-      - from:
-        - podSelector:
-            matchLabels:
-              role: frontend
-        ports:
-        - protocol: TCP
-          port: 80
+          role: frontend
+    ports:
+    - protocol: TCP
+      port: 80
 ```
 
-    Apply the Network Policy:
+Apply the Network Policy:
 
 ```console
-    kubectl apply -f network-policy.yaml
+kubectl apply -f network-policy.yaml
 ```
 
 3.  Test the Policy:
 
-    Deploy another Pod and try to access the first Pod to verify that the Network Policy is enforced.
+Deploy another Pod and try to access the first Pod to verify that the Network Policy is enforced.
