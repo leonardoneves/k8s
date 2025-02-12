@@ -314,6 +314,37 @@ Apply the Network Policy:
 kubectl apply -f network-policy.yaml
 ```
 
+#### Step 3: Deploy a Pod That Should Be Allowed
+
+Create a Pod labeled with `role: frontend` to simulate an allowed client.
+```console
+kubectl run curlpod-allowed --image=curlimages/curl --labels="role=frontend" -- sleep infinity
+```
+
+Verify that this Pod can access the `test-pod`:
+
+```console
+kubectl exec curlpod-allowed -- curl -m 5 http://test-pod
+```
+
+If the Network Policy is working correctly, you should see the default NGINX welcome page in the output.
+
+#### Step 4: Deploy a Pod That Should Be Denied
+
+Create another Pod without the `role: frontend` label to simulate a denied client.
+
+```console
+kubectl run curlpod-denied --image=curlimages/curl -- sleep infinity
+```
+
+Attempt to access the `test-pod` from this Pod:
+
+```console
+kubectl exec curlpod-denied -- curl -m 5 http://test-pod
+```
+
+If the Network Policy is enforced correctly, this command should fail with a timeout error (e.g., `curl: (28) Operation timed out`), indicating that the request was blocked.
+
 3.  Test the Policy:
 
 Deploy another Pod and try to access the first Pod to verify that the Network Policy is enforced.
