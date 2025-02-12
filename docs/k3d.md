@@ -344,7 +344,3 @@ kubectl exec curlpod-denied -- curl -m 5 http://test-pod
 ```
 
 If the Network Policy is enforced correctly, this command should fail with a timeout error (e.g., `curl: (28) Operation timed out`), indicating that the request was blocked.
-
-3.  Test the Policy:
-
-Deploy another Pod and try to access the first Pod to verify that the Network Policy is enforced.
