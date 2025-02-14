@@ -1,0 +1,6 @@
+releases:
+  - name: trivy-operator
+    namespace: trivy-system
+    chart: trivy-operator/trivy-operator
+    version: 0.25.0
+    createNamespace: true

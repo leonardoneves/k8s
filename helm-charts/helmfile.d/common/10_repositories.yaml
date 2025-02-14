@@ -1,0 +1,4 @@
+repositories:
+  # trivy
+  #- name: trivy-operator
+  #  url: oci://ghcr.io/aquasecurity/helm-charts/trivy-operator
