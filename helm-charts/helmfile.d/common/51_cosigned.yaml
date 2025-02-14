@@ -1,0 +1,6 @@
+releases:
+  - name: cosigned
+    namespace: cosign-system
+    chart: sigstore/cosigned
+    version: 0.0.4
+    createNamespace: true
