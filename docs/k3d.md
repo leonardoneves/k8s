@@ -136,10 +136,20 @@ sudo apt-get install kubectx
 kubectx
 kubens
 ```
+#### 8\. Install helmfile
+
+```console
+mkdir /tmp/helmfile && cp /tmp/helmfile
+curl -LO https://github.com/helmfile/helmfile/releases/download/v0.171.0/helmfile_0.171.0_linux_amd64.tar.gz
+tar -zxvf helmfile_0.171.0_linux_amd64.tar.gz
+sudo mv helmfile /usr/local/bin
+sudo chmod 755 /usr/local/bin/helmfile
+rm -rf /tmp/helmfile
+```
 
 * * * * *
 
-#### 8\. Load Necessary Kernel Modules
+#### 9\. Load Necessary Kernel Modules
 
 To ensure proper networking functionality for Kubernetes and Cilium, load the required kernel modules (`overlay` and `br_netfilter`).
 
@@ -182,7 +192,7 @@ sudo systemctl restart systemd-modules-load.service
 
 * * * * *
 
-#### 9\. Configure Sysctl Settings
+#### 10\. Configure Sysctl Settings
 
 Configure `sysctl` settings to enable IP forwarding and bridge traffic filtering.
 
@@ -216,7 +226,7 @@ sysctl net.bridge.bridge-nf-call-ip6tables
 
 * * * * *
 
-#### 10\. Create a k3d Cluster Without Flannel
+#### 11\. Create a k3d Cluster Without Flannel
 
 Now that everything is set up, create a k3d cluster without Flannel .
 
@@ -236,7 +246,7 @@ Nodes will be on NotReady state due to lack of CNI
 
 * * * * *
 
-#### 11\. Install Cilium
+#### 12\. Install Cilium
 
 Replace Flannel with Cilium as the CNI.
 
@@ -262,7 +272,7 @@ cilium status
 
 * * * * *
 
-#### 12\. Test Network Policies
+#### 13\. Test Network Policies
 
 To ensure Cilium is working correctly, test a simple Network Policy.
 
