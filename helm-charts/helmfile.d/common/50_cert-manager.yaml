@@ -4,3 +4,16 @@ releases:
     chart: cert-manager/cert-manager
     version: 1.17.1 
     createNamespace: true
+    hooks:
+      - events: ["prepare"]
+        showlogs: true
+        command: "sh"
+        args:
+          - "-c"
+          - "kubectl apply -n cert-manager -f https://github.com/cert-manager/cert-manager/releases/download/v1.17.1/cert-manager.crds.yaml"
+      - events: ["preuninstall"]
+        showlogs: true
+        command: "sh"
+        args:
+          - "-c"
+          - "kubectl delete -n cert-manager -f https://github.com/cert-manager/cert-manager/releases/download/v1.17.1/cert-manager.crds.yaml"
