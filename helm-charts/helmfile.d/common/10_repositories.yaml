@@ -1,10 +1,13 @@
 repositories:
-  # trivy
+  # trivy/trivy
   - name: trivy-operator
     url: https://aquasecurity.github.io/helm-charts 
-  #sigstore 
+  # sigstore/consigned
   - name: sigstore
     url: https://sigstore.github.io/helm-charts
-  #twuni
+  # twuni/docker-registry
   - name: twuni
     url: https://helm.twun.io
+  # jetstack/cert-manager
+  - name: cert-manager 
+    url: https://charts.jetstack.io

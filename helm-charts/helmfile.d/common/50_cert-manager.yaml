@@ -1,0 +1,6 @@
+releases:
+  - name: cert-manager 
+    namespace: cert-manager
+    chart: cert-manager/cert-manager
+    version: 1.17.1 
+    createNamespace: true
