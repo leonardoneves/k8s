@@ -1,20 +1,25 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: docker-registry-ingress
-  namespace: docker-registry
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.middlewares: docker-registry-strip-prefix@kubernetescrd
+  name: docker-registry-ingress
 spec:
+  ingressClassName: traefik
   rules:
   - host: localk8s.localdomain
     http:
       paths:
-      - path: /registry
-        pathType: Prefix
-        backend:
+      - backend:
           service:
             name: docker-registry
             port:
               number: 5000
+        path: /registry
+        pathType: Prefix
+  tls:
+  - hosts:
+    - localk8s.localdomain
+    secretName: registry-tls
