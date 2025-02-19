@@ -11,3 +11,6 @@ repositories:
   # jetstack/cert-manager
   - name: cert-manager 
     url: https://charts.jetstack.io
+  # kyverno/kyverno
+  - name: kyverno
+    url: https://kyverno.github.io/kyverno/

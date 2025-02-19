@@ -1,0 +1,6 @@
+releases:
+  - name: kyverno 
+    namespace: kyverno
+    chart: kyverno/kyverno
+    version: 3.3.7
+    createNamespace: true
