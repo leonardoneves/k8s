@@ -4,3 +4,16 @@ releases:
     chart: twuni/docker-registry
     version: 2.2.3
     createNamespace: true
+    hooks:
+      - events: ["prepare"]
+        showlogs: true
+        command: "sh"
+        args:
+          - "-c"
+          - "kubectl apply -k ../../charts/docker-registry/manifests"
+      - events: ["preuninstall"]
+        showlogs: true
+        command: "sh"
+        args:
+          - "-c"
+          - "kubectl delete -k ../../charts/docker-registry/manifests"
