@@ -228,12 +228,12 @@ sysctl net.bridge.bridge-nf-call-ip6tables
 
 #### 11\. Create a k3d Cluster Without Flannel
 
-Now that everything is set up, create a k3d cluster without Flannel .
+Now that everything is set up, create a k3d cluster without Flannel. Also we are mapping ports 80 and 443.
 
 1.  Create the Cluster (3 masters and 3 worker nodes):
 
 ```console
-k3d cluster create my-cluster --k3s-arg "--flannel-backend=none@server:*" -a 3 -s 3
+k3d cluster create my-cluster --k3s-arg "--flannel-backend=none@server:*" -a 3 -s 1 -p "80:80@loadbalancer" -p "443:443@loadbalancer"
 ```
 
 2.  Verify the Cluster:
