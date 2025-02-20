@@ -1,9 +1,9 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: strip-prefix
+  name: add-registry-prefix
   namespace: docker-registry
 spec:
   replacePathRegex:
-    regex: "^/registry/(.*)"
-    replacement: "/$1"
+    regex: ^/v2/(.*)
+    replacement: /registry/v2/$1

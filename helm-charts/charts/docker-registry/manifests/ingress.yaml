@@ -1,25 +1,27 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  name: docker-registry-ingress
+  namespace: docker-registry
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.middlewares: docker-registry-strip-prefix@kubernetescrd
-  name: docker-registry-ingress
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    # Rewrite /registry/(.*) to /$1, so that Docker’s /v2 requests are mapped correctly
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
 spec:
-  ingressClassName: traefik
+  ingressClassName: nginx
   rules:
   - host: localk8s.localdomain
     http:
       paths:
-      - backend:
+      - path: /registry/(.*)
+        pathType: ImplementationSpecific
+        backend:
           service:
             name: docker-registry
             port:
               number: 5000
-        path: /registry
-        pathType: Prefix
   tls:
   - hosts:
     - localk8s.localdomain
-    secretName: registry-tls
+    secretName: registry-tls-secret 

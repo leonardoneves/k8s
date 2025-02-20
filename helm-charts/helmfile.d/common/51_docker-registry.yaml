@@ -17,3 +17,5 @@ releases:
         args:
           - "-c"
           - "kubectl delete -k ../../charts/docker-registry/manifests"
+    values:
+      - "../../charts/docker-registry/values/k3d-my-cluster.yaml"

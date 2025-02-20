@@ -1,0 +1,13 @@
+# values.yaml
+tls:
+  enabled: true
+  existingSecret: registry-tls  # Name of your TLS secret
+  certsTag: ""
+
+secrets:
+  htpasswd: "leo:$2y$05$8o3j4damOS8Lvl0LSHHl1ecCb8p.7vssHVsxOgmMNGFUylqng2MEW"
+
+env:
+  - name: REGISTRY_HTTP_RELATIVEURLS
+    value: "true"
+

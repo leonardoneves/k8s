@@ -3,4 +3,4 @@ kind: Kustomization
 namespace: docker-registry
 resources:
   - ingress.yaml
-  - middleware.yaml
+#  - middleware.yaml

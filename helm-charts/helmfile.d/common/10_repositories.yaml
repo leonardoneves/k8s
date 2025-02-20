@@ -14,3 +14,6 @@ repositories:
   # kyverno/kyverno
   - name: kyverno
     url: https://kyverno.github.io/kyverno/
+  # ingress-nginx/ingress-nginx
+  - name: ingress-nginx
+    url: https://kubernetes.github.io/ingress-nginx
