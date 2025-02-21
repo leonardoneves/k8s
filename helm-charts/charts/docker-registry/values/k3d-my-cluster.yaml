@@ -1,31 +1,18 @@
-# Enable TLS for the Docker Registry
-#tls:
-#  enabled: true
-#  existingSecret: wildcard-tls # Reuse the wildcard secret for the registry
-#  certsTag: ""
-# Extra environment variables for the Docker Registry
-#extraEnvVars:
-#  - name: REGISTRY_HTTP_RELATIVEURLS
-#    value: "true"
-#  - name: REGISTRY_HTTP_TLS_CERTIFICATE
-#    value: "/certs/tls.crt" # Path to the TLS certificate inside the container
-#  - name: REGISTRY_HTTP_TLS_KEY
-#    value: "/certs/tls.key" # Path to the TLS key inside the container
-# Mount the TLS certificate and key as a volume
-#extraVolumeMounts:
-#  - name: certs
-#    mountPath: /certs
-#    readOnly: true
-#extraVolumes:
-#  - name: certs
-#    secret:
-#      secretName: wildcard-tls # Use the wildcard secret for the registry
-# Service configuration
-#service:
-#  type: ClusterIP
-#  port: 5000
-
 # values.yaml
+
+# In charts/docker-registry/values/k3d-my-cluster.yaml
+configData:
+  http:
+    headers:
+      X-Content-Type-Options: [nosniff]
+  # Add these settings to handle large uploads
+  compatibility:
+    schema1:
+      enabled: true
+  validation:
+    disabled: true
+  maxUploadSize: 20000M  # Adjust based on your needs
+
 
 # Secrets for basic authentication (htpasswd)
 secrets:
@@ -38,6 +25,7 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP" # Ensure NGINX uses HTTPS to communicate with the backend
     nginx.ingress.kubernetes.io/ssl-redirect: "true" # Redirect HTTP to HTTPS
+    nginx.ingress.kubernetes.io/proxy-body-size: "0" 
   hosts:
     - registry.localk8s.localdomain # List of hostnames (must be strings)
   paths:
