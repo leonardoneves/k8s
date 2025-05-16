@@ -233,7 +233,7 @@ Now that everything is set up, create a k3d cluster without Flannel and without 
 1.  Create the Cluster (3 masters and 3 worker nodes):
 
 ```console
-k3d cluster create my-cluster \
+k3d cluster create sandbox \
   --k3s-arg "--flannel-backend=none@server:*" \
   --k3s-arg "--disable=traefik@server:*" \
   -a 3 -s 1 \
@@ -264,8 +264,15 @@ sudo mv cilium /usr/local/bin/
 
 2.  Install Cilium:
 
+2.1 Via cilium CLI:
 ```console
 cilium install
+```
+
+2.2 Helm
+```
+helm repo add cilium https://helm.cilium.io/
+helm install my-cilium cilium/cilium --version 1.18.0-pre.2
 ```
 
 3.  Verify Cilium Installation:
