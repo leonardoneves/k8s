@@ -236,8 +236,10 @@ Now that everything is set up, create a k3d cluster without Flannel and without 
 k3d cluster create sandbox \
   --k3s-arg "--flannel-backend=none@server:*" \
   --k3s-arg "--disable=traefik@server:*" \
-  -a 3 -s 1 \
-  -p "80:80@loadbalancer" -p "443:443@loadbalancer"
+  -a 3 \
+  -s 1 \
+  -p "80:80@loadbalancer" \
+  -p "443:443@loadbalancer"
 ```
 
 2.  Verify the Cluster:
